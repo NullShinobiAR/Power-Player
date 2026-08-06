@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power - Royal Glassmorphic Music Player</title>
+    <!-- Google Fonts for premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- App Icon -->
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="apple-touch-icon" href="icon.png">
+    <!-- FontAwesome for high-quality icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Full-screen Ambient Background Glows -->
+    <div class="ambient-glow bg-glow-1"></div>
+    <div class="ambient-glow bg-glow-2"></div>
+    <div class="ambient-glow bg-glow-3"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation (Glassmorphic) -->
+        <aside class="sidebar glass-panel" id="sidebar">
+            <div class="logo-container">
+                <div class="insta-logo-glow">
+                    <img src="icon.png" alt="Power Logo" class="brand-logo-img" style="width:38px;height:38px;border-radius:50%;object-fit:cover;box-shadow:0 0 14px rgba(255,215,0,0.5);">
+                </div>
+                <span class="logo-text">Power <span class="royal-badge">ROYAL</span></span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" id="nav-home">
+                    <i class="fas fa-crown"></i>
+                    <span>Royal Palace</span>
+                </a>
+                <a href="#" class="nav-item" id="nav-local">
+                    <i class="fas fa-folder-open"></i>
+                    <span>Local Music</span>
+                </a>
+                <a href="#" class="nav-item" id="nav-search">
+                    <i class="fas fa-magnifying-glass"></i>
+                    <span>Search Library</span>
+                </a>
+            </nav>
+            <!-- Hidden input for local music folder/files -->
+            <input type="file" id="nav-local-file-input" accept="audio/*" multiple style="display:none;">
+
+            <!-- Pre-defined Playlists -->
+            <div class="library-container">
+                <div class="library-header">
+                    <i class="fas fa-music"></i>
+                    <span>Playlists</span>
+                </div>
+                <div class="playlists-list" id="playlists-list">
+                    <div class="playlist-item active-playlist" id="playlist-all" data-playlist="all">
+                        <div class="playlist-icon-box royal-gradient-1">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <div class="playlist-info">
+                            <span class="playlist-name">All Songs</span>
+                            <span class="playlist-tracks-count" id="all-count">208 songs</span>
+                        </div>
+                    </div>
+                    <div class="playlist-item" id="playlist-mass" data-playlist="mass">
+                        <div class="playlist-icon-box royal-gradient-2">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="playlist-info">
+                            <span class="playlist-name">Mass Songs</span>
+                            <span class="playlist-tracks-count" id="mass-count">0 songs</span>
+                        </div>
+                    </div>
+                    <div class="playlist-item" id="playlist-nice" data-playlist="nice">
+                        <div class="playlist-icon-box royal-gradient-3">
+                            <i class="fas fa-smile"></i>
+                        </div>
+                        <div class="playlist-info">
+                            <span class="playlist-name">Nice Songs</span>
+                            <span class="playlist-tracks-count" id="nice-count">0 songs</span>
+                        </div>
+                    </div>
+                    <div class="playlist-item" id="playlist-melodies" data-playlist="melodies">
+                        <div class="playlist-icon-box royal-gradient-4">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="playlist-info">
+                            <span class="playlist-name">Melodies</span>
+                            <span class="playlist-tracks-count" id="melodies-count">0 songs</span>
+                        </div>
+                    </div>
+                    <div class="playlist-item" id="playlist-vibes" data-playlist="vibes">
+                        <div class="playlist-icon-box royal-gradient-5">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="playlist-info">
+                            <span class="playlist-name">Full Vibes</span>
+                            <span class="playlist-tracks-count" id="vibes-count">0 songs</span>
+                        </div>
+                    </div>
+                    <!-- Liked songs -->
+                    <div class="playlist-item" id="playlist-liked" data-playlist="liked">
+                        <div class="playlist-icon-box royal-gradient-liked">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="playlist-info">
+                            <span class="playlist-name">Liked Songs</span>
+                            <span class="playlist-tracks-count" id="liked-count">0 songs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Playlists Section -->
+            <div class="custom-playlists-container">
+                <div class="library-header">
+                    <i class="fas fa-folder-plus"></i>
+                    <span>Custom Lists</span>
+                    <button class="add-playlist-btn" id="create-playlist-btn" title="Create Playlist">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="playlists-list" id="custom-playlists-list">
+                    <!-- Dynamic custom playlists injected here -->
+                </div>
+            </div>
+
+            <!-- Cloud & Local Files Widget -->
+            <div class="cloud-widget glass-panel">
+                <h4><i class="fas fa-cloud-arrow-up"></i> Power Cloud</h4>
+                <p>Add songs to your persistent cloud library or play local media.</p>
+                <div class="cloud-actions">
+                    <button class="btn-cloud" id="btn-cloud-upload">
+                        <i class="fas fa-cloud-arrow-up"></i> Upload Song
+                    </button>
+                    <button class="btn-local" id="btn-local-play">
+                        <i class="fas fa-file-audio"></i> Open Local File
+                    </button>
+                    <input type="file" id="local-file-input" accept="audio/*" style="display: none;">
+                </div>
+            </div>
+
+            <!-- Currently Playing Info Card -->
+            <div class="sidebar-track-card glass-panel" id="sidebar-track-card">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><defs><radialGradient id='grad' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%232d124d'/><stop offset='100%' stop-color='%230c0714'/></radialGradient><linearGradient id='gold' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23ffe259'/><stop offset='100%' stop-color='%23ffa751'/></linearGradient></defs><rect width='100%' height='100%' fill='url(%23grad)'/><path fill='url(%23gold)' d='M384 48L192 112v288c-18.3-9.5-40.5-16-64-16-53 0-96 35.8-96 80s43 80 96 80 96-35.8 96-80V224l160-53.3v165.3c-18.3-9.5-40.5-16-64-16-53 0-96 35.8-96 80s43 80 96 80 96-35.8 96-80V48z' transform='translate(144, 128) scale(0.6)'/></svg>" alt="Music Background" class="sidebar-cover active-vinyl" id="sidebar-cover">
+                <div class="sidebar-track-details">
+                    <h4 class="sidebar-title" id="sidebar-title">Select a track</h4>
+                    <p class="sidebar-artist" id="sidebar-artist">Artist</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Glassmorphic Header -->
+            <header class="header glass-panel">
+                <div class="header-navigation">
+                    <button class="nav-arrow" id="nav-prev-view" title="Go back">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="nav-arrow" id="nav-next-view" title="Go forward">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div class="search-bar-container hidden" id="search-bar-container">
+                        <i class="fas fa-magnifying-glass search-icon"></i>
+                        <input type="text" placeholder="Search track name, artist, or album..." id="search-input" autocomplete="off">
+                        <button class="clear-search-btn" id="clear-search"><i class="fas fa-xmark"></i></button>
+                    </div>
+                </div>
+                
+                <div class="header-profile">
+                    <div class="royal-status">
+                        <i class="fas fa-crown gold-text"></i>
+                        <span>ROYAL VIP</span>
+                    </div>
+                    <div class="profile-button glass-panel">
+                        <img src="insta logo.jpg" alt="Profile Picture" class="profile-pic">
+                        <span class="profile-name">Tamil Music Fan</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Scrollable Content Body -->
+            <div class="scroll-container" id="scroll-container">
+                
+                <!-- 3D Focus Player Dashboard -->
+                <section class="visualizer-section glass-panel" id="visualizer-section">
+                    <div class="interactive-3d-wrapper" id="player-3d-card">
+                        
+                        <!-- The 3D Vinyl Player Box -->
+                        <div class="vinyl-display">
+                            <div class="vinyl-grooves">
+                                 <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><defs><radialGradient id='grad' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%232d124d'/><stop offset='100%' stop-color='%230c0714'/></radialGradient><linearGradient id='gold' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23ffe259'/><stop offset='100%' stop-color='%23ffa751'/></linearGradient></defs><rect width='100%' height='100%' fill='url(%23grad)'/><path fill='url(%23gold)' d='M384 48L192 112v288c-18.3-9.5-40.5-16-64-16-53 0-96 35.8-96 80s43 80 96 80 96-35.8 96-80V224l160-53.3v165.3c-18.3-9.5-40.5-16-64-16-53 0-96 35.8-96 80s43 80 96 80 96-35.8 96-80V48z' transform='translate(144, 128) scale(0.6)'/></svg>" alt="Vinyl Music Cover" class="vinyl-cover active-vinyl" id="main-vinyl-cover">
+                                <div class="vinyl-center"></div>
+                            </div>
+                            <!-- Dynamic Pulse rings -->
+                            <div class="pulse-ring pr-1"></div>
+                            <div class="pulse-ring pr-2"></div>
+                            <div class="pulse-ring pr-3"></div>
+                        </div>
+
+                        <!-- Real-time Equalizer Wave Visualizer -->
+                        <div class="visualizer-canvas-container">
+                            <canvas id="audio-visualizer"></canvas>
+                            <div class="visualizer-overlay" id="visualizer-overlay">
+                                <i class="fas fa-play-circle play-overlay-icon" id="start-visualizer-hint"></i>
+                                <p>Tap to start royal vibes</p>
+                            </div>
+                        </div>
+
+                        <!-- Track Details on Main Panel -->
+                        <div class="panel-track-details">
+                            <h2 id="focus-title">Select a Track</h2>
+                            <p id="focus-artist">Click play on any song below to begin</p>
+                        </div>
+                    </div>
+
+                    <!-- Equalizer Mixer Controls -->
+                    <div class="equalizer-mixer glass-panel">
+                        <div class="mixer-header">
+                            <h3><i class="fas fa-sliders-h"></i> 5-Band Studio Equalizer</h3>
+                            <div class="preset-selector">
+                                <label for="eq-presets">Preset:</label>
+                                <select id="eq-presets" class="glass-select">
+                                    <option value="flat" selected>Flat (Default)</option>
+                                    <option value="bass">Bass Booster</option>
+                                    <option value="treble">Treble Booster</option>
+                                    <option value="vocal">Vocal Clarity</option>
+                                    <option value="royal">Royal Gold</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="eq-sliders">
+                            <div class="eq-band">
+                                <div class="eq-value" id="eq-val-0">0dB</div>
+                                <input type="range" class="eq-slider" id="eq-band-0" min="-12" max="12" step="1" value="0" orient="vertical">
+                                <span class="eq-label">60Hz</span>
+                                <span class="eq-sublabel">Bass</span>
+                            </div>
+                            <div class="eq-band">
+                                <div class="eq-value" id="eq-val-1">0dB</div>
+                                <input type="range" class="eq-slider" id="eq-band-1" min="-12" max="12" step="1" value="0" orient="vertical">
+                                <span class="eq-label">230Hz</span>
+                                <span class="eq-sublabel">Lo-Mid</span>
+                            </div>
+                            <div class="eq-band">
+                                <div class="eq-value" id="eq-val-2">0dB</div>
+                                <input type="range" class="eq-slider" id="eq-band-2" min="-12" max="12" step="1" value="0" orient="vertical">
+                                <span class="eq-label">910Hz</span>
+                                <span class="eq-sublabel">Mid</span>
+                            </div>
+                            <div class="eq-band">
+                                <div class="eq-value" id="eq-val-3">0dB</div>
+                                <input type="range" class="eq-slider" id="eq-band-3" min="-12" max="12" step="1" value="0" orient="vertical">
+                                <span class="eq-label">4kHz</span>
+                                <span class="eq-sublabel">Presence</span>
+                            </div>
+                            <div class="eq-band">
+                                <div class="eq-value" id="eq-val-4">0dB</div>
+                                <input type="range" class="eq-slider" id="eq-band-4" min="-12" max="12" step="1" value="0" orient="vertical">
+                                <span class="eq-label">14kHz</span>
+                                <span class="eq-sublabel">Treble</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visualizer Mode Controls -->
+                    <div class="visualizer-modes">
+                        <button class="vis-mode-btn active" data-mode="bars" title="Equalizer Bars">
+                            <i class="fas fa-chart-bar"></i> Equalizer Bars
+                        </button>
+                        <button class="vis-mode-btn" data-mode="circle" title="Vibe Circle">
+                            <i class="fas fa-circle-notch"></i> Vibe Circle
+                        </button>
+                        <button class="vis-mode-btn" data-mode="wave" title="Audio Waveform">
+                            <i class="fas fa-wave-square"></i> Audio Waveform
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Interactive Tracks List -->
+                <section class="tracks-section">
+                    <div class="section-header">
+                        <h2 id="section-title">All Songs</h2>
+                        <span class="royal-tag">Premium Collection</span>
+                    </div>
+                    <div class="tracks-grid" id="tracks-grid">
+                        <!-- Tracks will be dynamically injected here -->
+                    </div>
+                </section>
+
+                <!-- Detailed Track Row List -->
+                <section class="table-section">
+                    <div class="table-header-row">
+                        <div class="col-num">#</div>
+                        <div class="col-title">Title</div>
+                        <div class="col-album">Album</div>
+                        <div class="col-duration"><i class="far fa-clock"></i></div>
+                        <div class="col-actions-header"><i class="fas fa-ellipsis-v"></i></div>
+                    </div>
+                    <div class="table-rows" id="table-rows">
+                        <!-- Track rows will be dynamically injected here -->
+                    </div>
+                </section>
+
+                <!-- Full Screen / Visualizer Focus View (Hidden by default) -->
+                <section class="lyrics-visualizer-container hidden" id="lyrics-visualizer-container">
+                    <div class="lyrics-pane glass-panel">
+                        <h3>Interactive Lyrics</h3>
+                        <div class="lyrics-scroll" id="lyrics-scroll">
+                            <div class="lyric-line placeholder-lyric">Play a song to load lyrics...</div>
+                        </div>
+                    </div>
+                    <div class="queue-pane glass-panel">
+                        <h3>Play Queue</h3>
+                        <div class="queue-list" id="queue-list">
+                            <!-- Queue items will be injected here -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Fixed Bottom Player Bar (Glassmorphic) -->
+    <footer class="player-bar glass-panel">
+        <!-- Currently Playing Song Details -->
+        <div class="player-left">
+            <div class="now-playing-img-container" id="player-img-container">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><defs><radialGradient id='grad' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%232d124d'/><stop offset='100%' stop-color='%230c0714'/></radialGradient><linearGradient id='gold' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23ffe259'/><stop offset='100%' stop-color='%23ffa751'/></linearGradient></defs><rect width='100%' height='100%' fill='url(%23grad)'/><path fill='url(%23gold)' d='M384 48L192 112v288c-18.3-9.5-40.5-16-64-16-53 0-96 35.8-96 80s43 80 96 80 96-35.8 96-80V224l160-53.3v165.3c-18.3-9.5-40.5-16-64-16-53 0-96 35.8-96 80s43 80 96 80 96-35.8 96-80V48z' transform='translate(144, 128) scale(0.6)'/></svg>" alt="Music Cover Art" class="now-playing-img active-vinyl" id="player-cover">
+            </div>
+            <div class="now-playing-meta">
+                <div class="now-playing-title-wrapper">
+                    <span class="now-playing-title" id="player-title">Select a track</span>
+                </div>
+                <span class="now-playing-artist" id="player-artist">Artist</span>
+            </div>
+            <button class="player-like-btn" id="player-like" title="Add to Liked Songs">
+                <i class="far fa-heart"></i>
+            </button>
+            <button class="player-download-btn" id="player-download" title="Download Current Song">
+                <i class="fas fa-arrow-down-long"></i>
+            </button>
+        </div>
+
+        <!-- Central Playback Controls -->
+        <div class="player-center">
+            <div class="control-buttons">
+                <button class="player-ctrl-btn" id="player-shuffle" title="Shuffle">
+                    <i class="fas fa-shuffle"></i>
+                </button>
+                <button class="player-ctrl-btn" id="player-prev" title="Previous">
+                    <i class="fas fa-backward-step"></i>
+                </button>
+                <button class="player-play-btn" id="player-play" title="Play">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="player-ctrl-btn" id="player-next" title="Next">
+                    <i class="fas fa-forward-step"></i>
+                </button>
+                <button class="player-ctrl-btn" id="player-repeat" title="Repeat">
+                    <i class="fas fa-repeat"></i>
+                </button>
+            </div>
+            <div class="progress-container">
+                <span class="time-stamp" id="time-current">0:00</span>
+                <div class="progress-bar-wrapper">
+                    <input type="range" class="progress-slider" id="progress-slider" min="0" max="100" value="0">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <span class="time-stamp" id="time-duration">0:00</span>
+            </div>
+        </div>
+
+        <!-- Right Side Utility controls -->
+        <div class="player-right">
+            <button class="player-ctrl-btn" id="toggle-lyrics" title="Lyrics & Queue">
+                <i class="fas fa-microphone"></i>
+            </button>
+            <button class="player-ctrl-btn" id="toggle-visualizer" title="Toggle Mixer Panel">
+                <i class="fas fa-sliders-h"></i>
+            </button>
+            <div class="volume-container">
+                <button class="player-ctrl-btn" id="volume-btn" title="Mute">
+                    <i class="fas fa-volume-high"></i>
+                </button>
+                <div class="volume-slider-wrapper">
+                    <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="70">
+                    <div class="volume-fill" id="volume-fill"></div>
+                </div>
+            </div>
+            <button class="player-ctrl-btn" id="player-fullscreen" title="Fullscreen Visualizer">
+                <i class="fas fa-expand"></i>
+            </button>
+        </div>
+    </footer>
+
+    <!-- Cloud Upload Modal -->
+    <div class="modal-overlay" id="upload-modal">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h3><i class="fas fa-cloud-arrow-up"></i> Upload to Power Cloud</h3>
+                <button class="btn-close-modal" id="close-upload-modal"><i class="fas fa-xmark"></i></button>
+            </div>
+            <form id="cloud-upload-form">
+                <div class="form-group drop-zone" id="audio-drop-zone">
+                    <i class="fas fa-music upload-zone-icon"></i>
+                    <p>Drag & drop your audio file here or click to browse</p>
+                    <span class="file-name-indicator" id="uploaded-file-name">No file selected</span>
+                    <input type="file" id="cloud-file-input" accept="audio/*" required style="display: none;">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="song-title">Song Title</label>
+                        <input type="text" id="song-title" placeholder="e.g. Mass Theme" required class="glass-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="song-artist">Artist</label>
+                        <input type="text" id="song-artist" placeholder="e.g. Anirudh" required class="glass-input">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="song-album">Album</label>
+                        <input type="text" id="song-album" placeholder="e.g. Jailer Hits" class="glass-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="song-category">Category</label>
+                        <select id="song-category" class="glass-input">
+                            <option value="mass">Mass Songs</option>
+                            <option value="nice">Nice Songs</option>
+                            <option value="melodies">Melodies</option>
+                            <option value="vibes" selected>Full Vibes</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit-upload">
+                    <i class="fas fa-cloud-arrow-up"></i> Upload to Cloud
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dropdown / Context Menu for Adding to Playlists -->
+    <div class="playlist-dropdown-menu glass-panel" id="playlist-dropdown-menu" style="display: none;">
+        <div class="dropdown-header">Add to Playlist</div>
+        <div class="dropdown-items" id="playlist-dropdown-items">
+            <!-- Custom Playlists will be injected here -->
+        </div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item-new" id="dropdown-create-playlist">
+            <i class="fas fa-plus"></i> Create New Playlist
+        </div>
+    </div>
+
+    <!-- Hidden HTML5 Audio Element -->
+    <audio id="main-audio" crossorigin="anonymous"></audio>
+
+    <script src="app.js"></script>
+</body>
+</html>
