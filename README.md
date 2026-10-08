@@ -85,7 +85,7 @@ This project is licensed under the MIT License.
 
 ## 👨‍💻 Developer
 
-**Azhagu Raja**
+**RAM A**
 
 * GitHub: https://github.com/NullShinobiAR
 
